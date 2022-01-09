@@ -22,7 +22,7 @@ class AuraManager {
 			'WorkSelfConsumed',
 			'WorkSelfSupplied',
 		];
-		this.AURA_MANAGER_API_URL = 'http://192.168.178.38';
+		this.AURA_MANAGER_API_URL = process.env.AURA_MANAGER_API_URL;
 	}
 
 	async get(name) {

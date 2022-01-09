@@ -20,12 +20,12 @@ const tokenUrl = 'https://api.mps.ford.com';
 
 class Vehicle {
 	constructor(username, password, vin) {
-		(this.username = username),
-			(this.password = password),
-			(this.vin = vin),
-			(this.token = ''),
-			(this.outdatedAfterSeconds = 5 * 60),
-			(this.maxRefreshTrials = 20);
+		this.username = username;
+		this.password = password;
+		this.vin = vin;
+		this.token = '';
+		this.outdatedAfterSeconds = 5 * 60;
+		this.maxRefreshTrials = 20;
 	}
 
 	auth() {

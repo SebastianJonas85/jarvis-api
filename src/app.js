@@ -7,7 +7,7 @@ const __dirname = dirname(__filename);
 dotenv.config({ path: resolve(__dirname, '../.env') });
 
 import { Vehicle } from './Vehicle.js';
-const car = new Vehicle(process.env.FORDPASS_USERNAME, process.env.FORDPASS_PASSWORD, process.env.FORDPASS_VIN);
+const vehicle = new Vehicle(process.env.FORDPASS_USERNAME, process.env.FORDPASS_PASSWORD, process.env.FORDPASS_VIN);
 
 import express from 'express';
 import { AuraManager } from './AuraManager.js';
@@ -21,8 +21,8 @@ const SERVICE_URL = `http://${HOSTNAME}:${PORT}`;
 app.get('/vehicle/soc', async (req, res) => {
 	try {
 		console.log(req.path + ' requested');
-		await car.auth();
-		const data = await car.status();
+		await vehicle.auth();
+		const data = await vehicle.status();
 
 		res.set('Content-Type', 'text/plain');
 
@@ -38,8 +38,8 @@ app.get('/vehicle/soc', async (req, res) => {
 app.get('/vehicle/location', async (req, res) => {
 	try {
 		console.log(req.path + ' requested');
-		await car.auth();
-		const data = await car.status();
+		await vehicle.auth();
+		const data = await vehicle.status();
 
 		res.set('Content-Type', 'text/plain');
 		delete data.gps.status;
