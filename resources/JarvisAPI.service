@@ -1,0 +1,11 @@
+[Unit]
+Description=Api wrapper for Mustang Mach-E & Aura Manager
+
+[Service]
+Type=simple
+User=pi
+ExecStart=/usr/bin/node /home/pi/jarvis-api/src/app.js
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

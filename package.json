@@ -1,0 +1,27 @@
+{
+	"name": "jarvis-api",
+	"version": "1.0.0",
+	"description": "API wrapper to get data of my Mustang Mach-E and Aura Manager for homebridge and OpenWB.",
+	"main": "src/app.js",
+	"type": "module",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "node src/app.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/SebastianJonas85/jarvis-api.git"
+	},
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/SebastianJonas85/jarvis-api/issues"
+	},
+	"homepage": "https://github.com/SebastianJonas85/jarvis-api#readme",
+	"dependencies": {
+		"axios": "^0.24.0",
+		"dotenv": "^10.0.0",
+		"express": "^4.17.2"
+	},
+	"keywords": []
+}
