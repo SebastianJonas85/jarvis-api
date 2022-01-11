@@ -51,6 +51,18 @@ app.get('/vehicle/location', async (req, res) => {
 	}
 });
 
+app.get('/pv/history', async (req, res) => {
+	try {
+		console.log(req.path);
+		let data = await auraManager.getHistory();
+		res.set('Content-Type', 'application/json');
+		res.send(JSON.stringify(data));
+	} catch (error) {
+		console.log(error.message);
+		res.sendStatus(500).send(error.message);
+	}
+});
+
 app.get('/pv/:metric', async (req, res) => {
 	try {
 		console.log(req.path);
@@ -84,7 +96,16 @@ console.info(`✔️ ${SERVICE_URL}/vehicle/soc`);
 console.info(`✔️ ${SERVICE_URL}/vehicle/location`);
 
 console.info(`✔️ ${SERVICE_URL}/pv`);
+console.info(`✔️ ${SERVICE_URL}/pv/history`);
 
 auraManager.PV_METRICS.forEach((metric) => {
 	console.info(`✔️ ${SERVICE_URL}/pv/${metric}`);
 });
+
+setInterval(async () => {
+	try {
+		await auraManager.saveHistory();
+	} catch (error) {
+		console.log(error.message);
+	}
+}, 10000);

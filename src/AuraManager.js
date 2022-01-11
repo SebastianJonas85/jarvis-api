@@ -23,11 +23,25 @@ class AuraManager {
 			'WorkSelfSupplied',
 		];
 		this.AURA_MANAGER_API_URL = process.env.AURA_MANAGER_API_URL;
+		this.data = [];
 	}
 
 	async get(name) {
 		var data = await this.overview();
 		return data[name];
+	}
+
+	async saveHistory() {
+		let data = {};
+		data.timestamp = new Date();
+		data.data = await this.overview();
+		this.data.push(data);
+
+		this.data = this.data.slice(this.data.length - 360, this.data.length);
+	}
+
+	async getHistory() {
+		return this.data;
 	}
 
 	async overview() {
