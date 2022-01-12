@@ -2,6 +2,7 @@ import { resolve } from 'path';
 import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import { CronJob } from 'cron';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 dotenv.config({ path: resolve(__dirname, '../.env') });
@@ -102,10 +103,17 @@ auraManager.PV_METRICS.forEach((metric) => {
 	console.info(`✔️ ${SERVICE_URL}/pv/${metric}`);
 });
 
-setInterval(async () => {
-	try {
-		await auraManager.saveHistory();
-	} catch (error) {
-		console.log(error.message);
-	}
-}, 10000);
+var job = new CronJob(
+	'*/30 * * * * *',
+	async () => {
+		try {
+			await auraManager.saveHistory();
+			console.log('Saved history');
+		} catch (error) {
+			console.log(error.message);
+		}
+	},
+	null,
+	true
+);
+job.start();
