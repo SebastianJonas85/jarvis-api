@@ -28,10 +28,7 @@ app.get('/vehicle/soc', async (req, res) => {
 		const data = await vehicle.status();
 
 		res.set('Content-Type', 'text/plain');
-
 		res.send(JSON.stringify(parseInt(data.batteryFillLevel.value)));
-
-		console.log(data.batteryFillLevel.value + ' returned');
 	} catch (error) {
 		console.log(error.message);
 		res.status(500).send(error.message);
@@ -81,7 +78,7 @@ app.get('/pv', async (req, res) => {
 		res.set('Content-Type', 'application/json');
 		res.send(JSON.stringify(data));
 	} catch (error) {
-		console.log(error.message);
+		console.error(error.message);
 		res.sendStatus(500).send(error.message);
 	}
 });
