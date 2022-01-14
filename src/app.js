@@ -3,6 +3,8 @@ import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import { CronJob } from 'cron';
+import logger from 'morgan';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 dotenv.config({ path: resolve(__dirname, '../.env') });
@@ -14,6 +16,7 @@ import express from 'express';
 import { AuraManager } from './AuraManager.js';
 const auraManager = new AuraManager();
 const app = express();
+app.use(logger(':method :url :status :response-time ms :user-agent'));
 
 const HOSTNAME = 'localhost';
 const PORT = 3000;
@@ -21,7 +24,6 @@ const SERVICE_URL = `http://${HOSTNAME}:${PORT}`;
 
 app.get('/vehicle/soc', async (req, res) => {
 	try {
-		console.log(req.path + ' requested');
 		await vehicle.auth();
 		const data = await vehicle.status();
 
@@ -38,7 +40,6 @@ app.get('/vehicle/soc', async (req, res) => {
 
 app.get('/vehicle/location', async (req, res) => {
 	try {
-		console.log(req.path + ' requested');
 		await vehicle.auth();
 		const data = await vehicle.status();
 
@@ -54,7 +55,6 @@ app.get('/vehicle/location', async (req, res) => {
 
 app.get('/pv/history', async (req, res) => {
 	try {
-		console.log(req.path);
 		let data = await auraManager.getHistory();
 		res.set('Content-Type', 'application/json');
 		res.send(JSON.stringify(data));
@@ -66,7 +66,6 @@ app.get('/pv/history', async (req, res) => {
 
 app.get('/pv/:metric', async (req, res) => {
 	try {
-		console.log(req.path);
 		let data = await auraManager.get(req.params.metric);
 		res.set('Content-Type', 'text/plain');
 		res.send(JSON.stringify(data));
@@ -78,7 +77,6 @@ app.get('/pv/:metric', async (req, res) => {
 
 app.get('/pv', async (req, res) => {
 	try {
-		console.log(req.path);
 		let data = await auraManager.overview();
 		res.set('Content-Type', 'application/json');
 		res.send(JSON.stringify(data));
