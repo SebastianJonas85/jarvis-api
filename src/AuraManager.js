@@ -37,7 +37,7 @@ class AuraManager {
 		data.data = await this.overview();
 		this.data.push(data);
 
-		this.data = this.data.slice(this.data.length - 360, this.data.length);
+		this.data = this.data.slice(this.data.length - 60 * 24, this.data.length);
 	}
 
 	async getHistory() {

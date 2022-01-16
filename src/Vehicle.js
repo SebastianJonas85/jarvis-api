@@ -117,6 +117,22 @@ class Vehicle {
 		});
 	}
 
+	normalizeObject(obj) {
+		let normalizedData = {};
+		for (const key in obj) {
+			if (obj.hasOwnProperty(key) && obj[key] !== null) {
+				const element = obj[key];
+
+				if (element.hasOwnProperty('value')) {
+					normalizedData[key] = element.value;
+				} else if (typeof element === 'object') {
+					normalizedData[key] = this.normalizeObject(element);
+				}
+			}
+		}
+		return normalizedData;
+	}
+
 	issueCommand(command) {
 		return new Promise(async (resolve, reject) => {
 			fordHeaders.set('auth-token', this.token);

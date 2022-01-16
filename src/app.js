@@ -22,6 +22,21 @@ const HOSTNAME = 'localhost';
 const PORT = 3000;
 const SERVICE_URL = `http://${HOSTNAME}:${PORT}`;
 
+app.get('/vehicle', async (req, res) => {
+	try {
+		await vehicle.auth();
+		const data = await vehicle.status();
+
+		let normalizedData = vehicle.normalizeObject(data);
+
+		res.set('Content-Type', 'text/plain');
+		res.send(JSON.stringify(normalizedData));
+	} catch (error) {
+		console.log(error.message);
+		res.status(500).send(error.message);
+	}
+});
+
 app.get('/vehicle/soc', async (req, res) => {
 	try {
 		await vehicle.auth();
@@ -88,6 +103,7 @@ app.listen(PORT);
 console.log(`🚀 Started server on port ${PORT}`);
 console.log('Available Endpoints:');
 
+console.info(`✔️ ${SERVICE_URL}/vehicle`);
 console.info(`✔️ ${SERVICE_URL}/vehicle/soc`);
 console.info(`✔️ ${SERVICE_URL}/vehicle/location`);
 
