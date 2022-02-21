@@ -28,7 +28,7 @@ app.get('/vehicle', async (req, res) => {
 		const data = await vehicle.status();
 
 		let normalizedData = vehicle.normalizeObject(data);
-
+		normalizedData.gps = { latitude: data.gps.latitude, longitude: data.gps.longitude };
 		res.set('Content-Type', 'text/plain');
 		res.send(JSON.stringify(normalizedData));
 	} catch (error) {
