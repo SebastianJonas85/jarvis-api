@@ -9,7 +9,7 @@ const TOPICS = [
 	// 'openWB/lp/1/boolChargeAtNight', // Nachtladen aktiv 1 / 0
 	// 'openWB/lp/1/kWhDirectModeToChargekWh', // Zu ladende kWh im Sofortladen Untermodus Lademenge
 	// 'openWB/lp/1/boolDirectChargeMode_none_kwh_soc', // Sofort Laden Untermodus, 0 = nein, 1 = kWH (Lademenge, 2= bis xx%SoC)
-	'openWB/lp/2/TimeRemaining',
+	'openWB/lp/1/TimeRemaining',
 	// 'openWB/lp/2/ADirectModeAmps',
 	// 'openWB/lp/2/boolChargePointConfigured', // Gibt an ob ein zweiter Ladepunkt konfiguriert ist
 	// 'openWB/lp/1/boolDirectModeChargekWh', // Gibt an ob der Sofort Laden Untermodus Lademenge aktiv ist
@@ -109,7 +109,7 @@ class OpenWb {
 		});
 	}
 
-	async overview() {
+	async status() {
 		return this.data;
 	}
 

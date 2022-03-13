@@ -103,7 +103,7 @@ app.get('/pv', async (req, res) => {
 	}
 });
 
-app.get('/openwb/status', async (req, res) => {
+app.get('/openwb', async (req, res) => {
 	try {
 		let data = await openWb.status();
 		res.set('Content-Type', 'application/json');
