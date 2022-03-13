@@ -5,6 +5,11 @@ import { dirname } from 'path';
 import { CronJob } from 'cron';
 import logger from 'morgan';
 
+import express from 'express';
+const app = express();
+app.use(logger(':method :url :status :response-time ms :user-agent'));
+app.use(express.json());
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 dotenv.config({ path: resolve(__dirname, '../.env') });
@@ -12,11 +17,11 @@ dotenv.config({ path: resolve(__dirname, '../.env') });
 import { Vehicle } from './Vehicle.js';
 const vehicle = new Vehicle(process.env.FORDPASS_USERNAME, process.env.FORDPASS_PASSWORD, process.env.FORDPASS_VIN);
 
-import express from 'express';
 import { AuraManager } from './AuraManager.js';
 const auraManager = new AuraManager();
-const app = express();
-app.use(logger(':method :url :status :response-time ms :user-agent'));
+
+import { OpenWb } from './OpenWb.js';
+const openWb = new OpenWb();
 
 const HOSTNAME = 'localhost';
 const PORT = 3000;
@@ -98,6 +103,29 @@ app.get('/pv', async (req, res) => {
 	}
 });
 
+app.get('/openwb/status', async (req, res) => {
+	try {
+		let data = await openWb.status();
+		res.set('Content-Type', 'application/json');
+		res.send(JSON.stringify(data));
+	} catch (error) {
+		console.error(error.message);
+		res.sendStatus(500).send(error.message);
+	}
+});
+
+app.post('/openwb/chargemode', async (req, res) => {
+	try {
+		console.log(req.body);
+		let data = await openWb.setChargeMode(req.body.chargemode);
+		res.set('Content-Type', 'application/json');
+		res.send(JSON.stringify(data));
+	} catch (error) {
+		console.error(error.message);
+		res.sendStatus(500).send(error.message);
+	}
+});
+
 app.listen(PORT);
 
 console.log(`🚀 Started server on port ${PORT}`);
@@ -113,6 +141,8 @@ console.info(`✔️ ${SERVICE_URL}/pv/history`);
 auraManager.PV_METRICS.forEach((metric) => {
 	console.info(`✔️ ${SERVICE_URL}/pv/${metric}`);
 });
+
+console.info(`✔️ ${SERVICE_URL}/openwb/status`);
 
 var job = new CronJob(
 	'*/30 * * * * *',
