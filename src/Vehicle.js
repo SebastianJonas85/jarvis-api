@@ -183,7 +183,7 @@ class Vehicle {
 				var result = await axios.request(options);
 				api_status = result.data.status;
 			} catch (err) {
-				console.log(err);
+				console.log('Vehicle.requestStatusRefreshSync()', err.message);
 			}
 
 			if (api_status == 200) {
@@ -211,7 +211,7 @@ class Vehicle {
 		try {
 			var result = await axios.request(options);
 		} catch (err) {
-			console.log(err);
+			console.log('Vehicle.requestStatusRefresh()', err.message);
 			throw err;
 		}
 

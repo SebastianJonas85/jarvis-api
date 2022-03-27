@@ -4,11 +4,13 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import { CronJob } from 'cron';
 import logger from 'morgan';
+import cors from 'cors';
 
 import express from 'express';
 const app = express();
 app.use(logger(':method :url :status :response-time ms :user-agent'));
 app.use(express.json());
+app.use(cors());
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -22,6 +24,9 @@ const auraManager = new AuraManager();
 
 import { OpenWb } from './OpenWb.js';
 const openWb = new OpenWb();
+
+import { Herbert } from './Herbert.js';
+const herbert = new Herbert();
 
 const HOSTNAME = 'localhost';
 const PORT = 3000;
@@ -92,6 +97,19 @@ app.get('/pv/:metric', async (req, res) => {
 	}
 });
 
+app.get('/herbert/', async (req, res) => {
+	try {
+		var query = `?${req.url.split('?')[1]}`;
+		const data = await herbert.sendCommand(query);
+
+		res.set('Content-Type', 'application/json');
+		res.send(data);
+	} catch (error) {
+		console.log(error.message);
+		res.set('status', 500).send(error.message);
+	}
+});
+
 app.get('/pv', async (req, res) => {
 	try {
 		let data = await auraManager.overview();
@@ -142,7 +160,7 @@ auraManager.PV_METRICS.forEach((metric) => {
 	console.info(`✔️ ${SERVICE_URL}/pv/${metric}`);
 });
 
-console.info(`✔️ ${SERVICE_URL}/openwb/status`);
+console.info(`✔️ ${SERVICE_URL}/openwb`);
 
 var job = new CronJob(
 	'*/30 * * * * *',

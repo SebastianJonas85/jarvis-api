@@ -58,8 +58,8 @@ const TOPICS = [
 	// 'openWB/lp/1/VPhase3', // Spannung in Volt
 	'openWB/lp/1/kWhCounter', // Zählerstand in Wh an Ladepunkt 1
 	'openWB/lp/1/W', // Ladeleistung in Watt
-	// 'openWB/lp/1/boolPlugStat 1', // Steckererkennung = steckend
-	// 'openWB/lp/1/boolChargeStat 1', // Steckerereckennung = ladend
+	'openWB/lp/1/boolPlugStat', // Steckererkennung = steckend
+	'openWB/lp/1/boolChargeStat', // Steckerereckennung = ladend
 	// 'openWB/lp/1/AConfigured 8', // Ampere mit denen geladen werden soll
 	// 'openWB/lp/1/kWhActualCharged 0.64', // Geladene kWh des aktuellen Ladevorgangs
 	// 'openWB/lp/1/kWhChargedSincePlugged 4.44', // Geladene kWh seit letztem anstecken
