@@ -28,6 +28,9 @@ const openWb = new OpenWb();
 import { Herbert } from './Herbert.js';
 const herbert = new Herbert();
 
+import { WorkMailAliasService } from './WorkMailAliasService.js';
+const workMailAliasService = new WorkMailAliasService();
+
 const HOSTNAME = 'localhost';
 const PORT = 3000;
 const SERVICE_URL = `http://${HOSTNAME}:${PORT}`;
@@ -132,10 +135,21 @@ app.get('/openwb', async (req, res) => {
 	}
 });
 
-app.post('/openwb/chargemode', async (req, res) => {
+app.get('/workmail', async (req, res) => {
+	try {
+		let data = await workMailAliasService.listAliases();
+		res.set('Content-Type', 'application/json');
+		res.send(JSON.stringify(data));
+	} catch (error) {
+		console.error(error.message);
+		res.sendStatus(500).send(error.message);
+	}
+});
+
+app.post('/workmail', async (req, res) => {
 	try {
 		console.log(req.body);
-		let data = await openWb.setChargeMode(req.body.chargemode);
+		let data = await workMailAliasService.addAlias(req.body.alias);
 		res.set('Content-Type', 'application/json');
 		res.send(JSON.stringify(data));
 	} catch (error) {

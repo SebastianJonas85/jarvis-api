@@ -19,6 +19,7 @@
 	},
 	"homepage": "https://github.com/SebastianJonas85/jarvis-api#readme",
 	"dependencies": {
+		"aws-sdk": "^2.1108.0",
 		"axios": "^0.24.0",
 		"cors": "^2.8.5",
 		"cron": "^1.8.2",
