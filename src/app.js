@@ -56,7 +56,9 @@ app.get('/vehicle/soc', async (req, res) => {
 		const data = await vehicle.status();
 
 		res.set('Content-Type', 'text/plain');
-		res.send(JSON.stringify(parseInt(data.batteryFillLevel.value)));
+		res.send('50');
+
+		//res.send(JSON.stringify(parseInt(data.batteryFillLevel.value)));
 	} catch (error) {
 		console.log(error.message);
 		res.status(500).send(error.message);
